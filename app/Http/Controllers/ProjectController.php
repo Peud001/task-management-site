@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProjectRequest;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -13,15 +14,18 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::orderBy('name')->get();
+        return view('projects.index', compact('projects'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(StoreProjectRequest $request)
     {
-        //
+        $project = Project::create($request->validated());
+
+        return redirect()->back();
     }
 
     /**
