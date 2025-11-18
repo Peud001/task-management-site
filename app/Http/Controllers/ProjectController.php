@@ -21,19 +21,18 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StoreProjectRequest $request)
+    public function create()
     {
-        $project = Project::create($request->validated());
-
-        return redirect()->back();
+        return view('project.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        //
+        Project::create($request->validated());
+        return redirect()->back();
     }
 
     /**

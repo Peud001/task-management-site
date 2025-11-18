@@ -21,7 +21,7 @@
 <div class="bg-white rounded shadow p-4">
     <ul id="task-list" class="space-y-2">
         @foreach ($tasks as $task)
-        <li data-id="(($task->id))" class="p-3 border rounded flex  justify-between items-center">
+        <li data-id="{{ $task->id }}" class="p-3 border rounded flex  justify-between items-center">
             <div>
                 <div class="text-sm text-gray-500">
                     #{{ $task->priority }}
@@ -30,9 +30,9 @@
                     {{ $task->name }}
                 </div>
 
-                @if ($task->product)
+                @if ($task->project)
                 <div class="text-xs text-gray-400">
-                    {{ $task->product->name }}
+                    {{ $task->project->name }}
                 </div>
                 @endif
             </div>
@@ -41,7 +41,7 @@
                     Edit
                 </a>
             </div>
-            <form method="POST" action="{{ route('task.destroy', task) }}" class="inline" onsubmit="return confirm('Delete task?')">
+            <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline" onsubmit="return confirm('Delete task?')">
                 @csrf
                 @method('DELETE')
                 <button class="px-2 py-1 bg-red-200 rounded">

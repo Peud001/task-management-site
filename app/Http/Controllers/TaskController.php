@@ -46,7 +46,8 @@ class TaskController extends Controller
     {
         $data = $request->validated();
 
-        $maxPriority = Task::max('priority');
+        $maxPriority = Task::where('project_id', $data['project_id'])->max('priority');
+
         $data['priority'] = $maxPriority? $maxPriority + 1 : 1;
 
         Task::create($data);
@@ -60,8 +61,8 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $products = Project::orderBy('name')->get();
-        return view('task.edit', compact('task', 'projects'));
+        $projects = Project::orderBy('name')->get();
+        return view('tasks.edit', compact('task', 'projects'));
     }
 
     /**
@@ -70,7 +71,7 @@ class TaskController extends Controller
     public function update(StoreTaskRequest $request, Task $task)
     {
         $task->update($request->validated());
-        return redirect()->route('task.index');
+        return redirect()->route('tasks.index');
     }
 
     /**

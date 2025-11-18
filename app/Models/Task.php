@@ -10,10 +10,10 @@ class Task extends Model
     protected $fillable = [
         'name',
         'priority',
-        'projectid'
+        'project_id'
     ];
 
-    public function projects(): BelongsTo{
-        return $this->belongsTo(Project::class);
+    public function project(): BelongsTo{
+        return $this->belongsTo(Project::class, 'project_id');
     }
 }

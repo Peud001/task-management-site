@@ -5,10 +5,10 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('task.index');
+    return redirect()->route('tasks.index');
 });
 
 Route::resource('tasks', TaskController::class)->except(['show']);
 Route::post('tasks/reorder', [TaskController::class, 'reorder'])->name('tasks.reorder');
 
-Route::resource('project', ProjectController::class)->only(['index', 'store']);
+Route::resource('projects', ProjectController::class)->only(['index', 'store']);
