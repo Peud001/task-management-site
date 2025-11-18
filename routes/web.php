@@ -12,3 +12,4 @@ Route::resource('tasks', TaskController::class)->except(['show']);
 Route::post('tasks/reorder', [TaskController::class, 'reorder'])->name('tasks.reorder');
 
 Route::resource('projects', ProjectController::class)->only(['index', 'store']);
+

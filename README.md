@@ -1,59 +1,191 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# **Task Management Application (Laravel)**
 
-## About Laravel
+A clean, simple Laravel-based task management application that supports creating, updating, deleting, reordering, and organizing tasks by project. This application was built using Laravel best practices, readable code structure, RESTful controllers, migrations, Eloquent relationships, and drag-and-drop UI behavior.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## **Overview**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This web application allows users to:
 
-## Learning Laravel
+* Create tasks
+* Edit tasks
+* Delete tasks
+* Reorder tasks using intuitive drag-and-drop
+* Automatically update task priority after reordering (#1 at top)
+* Store tasks in a MySQL database
+* Filter tasks by project from a dropdown menu
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+All functionality follows Laravel conventions and best practices.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# **Features**
 
-## Laravel Sponsors
+### **Task Management**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+* Create new tasks
+* Edit existing tasks
+* Delete tasks
+* Real-time drag-and-drop sorting
+* Automatic priority recalculation
+* Persistent task order stored in MySQL
 
-### Premium Partners
+### **Project Management**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* Create projects
+* Assign each task to a project (optional)
+* Filter task list by selected project
+* “All Projects” option to view all tasks
 
-## Contributing
+### **Technical Features**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* Laravel 12+
+* RESTful controllers
+* Eloquent ORM with `hasMany` / `belongsTo` relationships
+* AJAX-based reorder endpoint
+* MySQL database for persistent storage
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# **Requirements**
 
-## Security Vulnerabilities
+To run this project locally, you need:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* **PHP 8.2+**
+* **Laravel 11+**
+* **Composer**
+* **MySQL 8+**
+* Local dev environment such as:
 
-## License
+  * **Laravel Herd** (used for development)
+  * XAMPP/MAMP
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# **Installation**
+
+Follow the steps below to install and run the project.
+
+
+## 1️ **Clone the Repository**
+
+```bash
+git clone [https://github.com/Peud001/task-management-site.git](https://github.com/Peud001/task-management-site.git)
+
+cd task-management-site
+
+
+## 2️ **Install PHP Dependencies**
+
+```bash
+composer install
+
+If using Laravel Herd, PHP is already configured automatically.
+
+
+## 3️ **Setup Environment File**
+
+Duplicate the example environment file:
+
+```bash
+cp .env.example .env
+
+Then configure your MySQL database:
+
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=task_management
+DB_USERNAME=root
+DB_PASSWORD=yourpassword
+
+
+# **Database Migrations**
+
+Run the database migrations:
+
+```bash
+php artisan migrate
+```
+
+This creates the tables:
+
+* `projects`
+* `tasks`
+
+### **Projects Table**
+
+* id
+* name
+* timestamps
+
+### **Tasks Table**
+
+* id
+* project_id (nullable, FK)
+* name
+* priority
+* timestamps
+
+
+# **Feature Implementation Details**
+
+
+## **Drag-and-Drop Sorting**
+
+Tasks can be reordered in the browser using drag-and-drop.
+
+**How it works:**
+
+1. User drags a task to a new position.
+2. JavaScript collects all task IDs in their new order.
+3. Browser sends JSON payload to:
+
+POST /tasks/reorder
+
+4. The controller updates each task’s priority:
+
+```php
+foreach ($order as $index => $id) {
+    Task::where('id', $id)->update([
+        'priority' => $index + 1
+    ]);
+}
+
+5. The task list instantly updates.
+
+
+## **Project Filtering**
+
+Users can select a project from a dropdown:
+
+* When a project is selected, only tasks for that project appear.
+* “None” displays all tasks.
+
+Controller logic:
+
+```php
+if ($projectId) {
+    $query->where('project_id', $projectId);
+}
+```
+
+# 🛣 **Routes Overview**
+
+### **Tasks**
+
+  Method   Route                Description                    
+  
+  GET      /tasks               Task list with project filter  
+  GET      /tasks/create        Task creation form             
+  POST     /tasks               Store task                     
+  GET      /tasks/{task}/edit   Edit form                      
+  PUT      /tasks/{task}        Update task                    
+  DELETE   /tasks/{task}        Delete task                    
+  POST     /tasks/reorder       Drag-and-drop reorder endpoint 
+
+### **Projects**
+
+  Method   Route       Description    
+
+  GET      /projects   List projects  
+  POST     /projects   Create project 
+

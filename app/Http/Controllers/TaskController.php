@@ -46,9 +46,8 @@ class TaskController extends Controller
     {
         $data = $request->validated();
 
-        $maxPriority = Task::where('project_id', $data['project_id'])->max('priority');
-
-        $data['priority'] = $maxPriority? $maxPriority + 1 : 1;
+        $maxPriority = Task::max('priority');
+        $data['priority'] = $maxPriority ? $maxPriority + 1 : 1;
 
         Task::create($data);
 
@@ -97,8 +96,8 @@ class TaskController extends Controller
         }
 
         DB::transaction(function() use ($order){
-            foreach($order as $index => $id){
-                Task::where('id', $id)->update(['priority' => $index+1]);
+            foreach($order as $item){
+                Task::where('id', $item['id'])->update(['priority' => $item['position']]);
             }
         });
         return response()->json(['message' => 'ok']);

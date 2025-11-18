@@ -13,15 +13,15 @@
         <h1 class="text-2xl font-bold mb-4">Task Manager</h1>
 
         @if (session('status'))
-        <div class="p-2 bg-green-100 text-green-800 mb-4">
-            {{ session('status') }}
-        </div>
+            <div class="p-2 bg-green-100 text-green-800 mb-4">
+                {{ session('status') }}
+            </div>
         @endif
 
-        @yield('content')
+        {{ $slot }}
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     @stack('scripts')
 </body>
 </html>

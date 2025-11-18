@@ -31,9 +31,16 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        Project::create($request->validated());
-        return redirect()->back();
+        $project = Project::create($request->validated());
+
+        if ($request->expectsJson()) {
+            return response()->json($project);
+        }
+
+        return redirect()->back()->with('status', 'Project added');
+        
     }
+
 
     /**
      * Display the specified resource.
