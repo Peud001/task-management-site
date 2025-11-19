@@ -1,147 +1,241 @@
-
 # **Task Management Application (Laravel)**
 
-A clean, simple Laravel-based task management application that supports creating, updating, deleting, reordering, and organizing tasks by project. This application was built using Laravel best practices, readable code structure, RESTful controllers, migrations, Eloquent relationships, and drag-and-drop UI behavior.
+A clean, simple Laravel-based task management application for creating, editing, deleting, and reordering tasks by project. Built following Laravel best practices, with clear structure, RESTful controllers, drag-and-drop sorting, and MySQL storage.
 
 
-## **Overview**
+# **Overview**
 
-This web application allows users to:
+This application allows users to:
 
 * Create tasks
-* Edit tasks
-* Delete tasks
-* Reorder tasks using intuitive drag-and-drop
-* Automatically update task priority after reordering (#1 at top)
-* Store tasks in a MySQL database
-* Filter tasks by project from a dropdown menu
-
-All functionality follows Laravel conventions and best practices.
-
-# **Features**
-
-### **Task Management**
-
-* Create new tasks
-* Edit existing tasks
-* Delete tasks
-* Real-time drag-and-drop sorting
-* Automatic priority recalculation
-* Persistent task order stored in MySQL
-
-### **Project Management**
-
-* Create projects
-* Assign each task to a project (optional)
-* Filter task list by selected project
-* “All Projects” option to view all tasks
-
-### **Technical Features**
-
-* Laravel 12+
-* RESTful controllers
-* Eloquent ORM with `hasMany` / `belongsTo` relationships
-* AJAX-based reorder endpoint
-* MySQL database for persistent storage
+* Edit and delete tasks
+* Drag-and-drop reorder tasks
+* Automatically update priority after sorting
+* Filter by project
+* Persist task ordering in MySQL
 
 
 # **Requirements**
 
-To run this project locally, you need:
+
+To run the project locally, you need:
 
 * **PHP 8.2+**
 * **Laravel 11+**
 * **Composer**
 * **MySQL 8+**
-* Local dev environment such as:
+* A local server environment:
 
-  * **Laravel Herd** (used for development)
-  * XAMPP/MAMP
+  * ✔ **Laravel Herd** (recommended)
+  * ✔ **XAMPP / MAMP** (for manual PHP + MySQL control)
+
+> **Node.js is NOT required.**
+> This project uses Laravel Blade + built-in JS only.
+
+---
+
+# 🚀 **Installation Guide**
+
+Below are two separate setup paths depending on how the user gets the code.
 
 
-# **Installation**
+#  **Scenario A — You Downloaded the ZIP File**
 
-Follow the steps below to install and run the project.
+Follow this if you are using thr ZIP file.
 
+---
 
-## 1️ **Clone the Repository**
+## 1️ **Extract the ZIP File**
+
+* Download the ZIP and create a new folder, copy and paste the ZIP file in that folder.
+* Right-click on the zip file and select → **Extract here**
+* Rename the folder: task-management-site (optional):
+
+---
+
+## 2️ **Move the project into your server directory**
+
+Depending on your environment:
+
+### ✔ **If using Laravel Herd**
+
+* Simply place the folder in the Herd directory
+* Example:
+
+  ```
+  ~/Herd/task-management-site
+  ```
+
+### ✔ **If using XAMPP**
+
+Move it into:
+
+```
+C:\xampp\htdocs\task-management-site
+```
+
+### ✔ **If using MAMP**
+
+Move it into:
+
+```
+/Applications/MAMP/htdocs/task-management-site
+```
+
+---
+
+## 3️ **Open a terminal inside the project folder**
+
+Example:
+
+**macOS/Herd/MAMP:**
 
 ```bash
-git clone [https://github.com/Peud001/task-management-site.git](https://github.com/Peud001/task-management-site.git)
+cd ~/Code/task-management-site
+```
 
-cd task-management-site
+**Windows/XAMPP:**
 
+```bash
+cd C:\xampp\htdocs\task-management-site
+```
 
-## 2️ **Install PHP Dependencies**
+---
+
+## 4️ **Install dependencies**
 
 ```bash
 composer install
+```
 
-If using Laravel Herd, PHP is already configured automatically.
+---
 
-
-## 3️ **Setup Environment File**
-
-Duplicate the example environment file:
+## 5️ **Create your environment file**
 
 ```bash
 cp .env.example .env
+```
 
-Then configure your MySQL database:
+---
 
+## 6️ **Generate the app key**
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
+```bash
+php artisan key:generate
+```
+
+---
+
+## 7️ **Create a MySQL database**
+
+Name it:
+
+```
+task_management
+```
+
+Using:
+
+* **phpMyAdmin** (XAMPP/MAMP)
+* **Herd DB Manager** (if using Herd)
+* Or MySQL CLI
+
+---
+
+## 8️ **Update your `.env` file**
+
+```
 DB_DATABASE=task_management
 DB_USERNAME=root
 DB_PASSWORD=yourpassword
+```
 
+---
 
-# **Database Migrations**
-
-Run the database migrations:
+## 9️⃣ **Run migrations**
 
 ```bash
 php artisan migrate
 ```
 
-This creates the tables:
+---
 
-* `projects`
-* `tasks`
+##  **Serve the application**
 
-### **Projects Table**
+### ✔ **Laravel Herd (Recommended)**
+
+Just open:
+
+```
+http://task-management-site.test
+```
+
+### ✔ **XAMPP / MAMP**
+
+Start Apache + MySQL
+Then run:
+
+```bash
+php artisan serve
+```
+
+App will be available at:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+# 🟦 **Scenario B — You Cloned the Project Using Git**
+
+If you used:
+
+```bash
+git clone https://github.com/Peud001/task-management-site.git
+```
+
+Then everything else is **exactly the same**:
+
+1. `cd task-management-site`
+2. `composer install`
+3. `cp .env.example .env`
+4. `php artisan key:generate`
+5. Set DB credentials
+6. `php artisan migrate`
+7. Run the server
+
+See steps above for details.
+
+---
+
+# **Database Structure**
+
+## **Projects Table**
 
 * id
 * name
 * timestamps
 
-### **Tasks Table**
+## **Tasks Table**
 
 * id
-* project_id (nullable, FK)
+* project_id
 * name
 * priority
 * timestamps
 
+---
 
-# **Feature Implementation Details**
+#  **Drag-and-Drop Sorting**
 
+The browser sends reordered IDs to:
 
-## **Drag-and-Drop Sorting**
-
-Tasks can be reordered in the browser using drag-and-drop.
-
-**How it works:**
-
-1. User drags a task to a new position.
-2. JavaScript collects all task IDs in their new order.
-3. Browser sends JSON payload to:
-
+```
 POST /tasks/reorder
+```
 
-4. The controller updates each task’s priority:
+Controller:
 
 ```php
 foreach ($order as $index => $id) {
@@ -149,43 +243,28 @@ foreach ($order as $index => $id) {
         'priority' => $index + 1
     ]);
 }
-
-5. The task list instantly updates.
-
-
-## **Project Filtering**
-
-Users can select a project from a dropdown:
-
-* When a project is selected, only tasks for that project appear.
-* “None” displays all tasks.
-
-Controller logic:
-
-```php
-if ($projectId) {
-    $query->where('project_id', $projectId);
-}
 ```
 
-# 🛣 **Routes Overview**
+---
+
+#  **Routes Overview**
 
 ### **Tasks**
 
-  Method   Route                Description                    
-  
-  GET      /tasks               Task list with project filter  
-  GET      /tasks/create        Task creation form             
-  POST     /tasks               Store task                     
-  GET      /tasks/{task}/edit   Edit form                      
-  PUT      /tasks/{task}        Update task                    
-  DELETE   /tasks/{task}        Delete task                    
-  POST     /tasks/reorder       Drag-and-drop reorder endpoint 
+ Method  Route               Description 
+ 
+ GET     /tasks              List tasks  
+ GET     /tasks/create       Create form 
+ POST    /tasks              Store task  
+ GET     /tasks/{task}/edit  Edit form   
+ PUT     /tasks/{task}       Update task 
+ DELETE  /tasks/{task}       Delete task 
+ POST    /tasks/reorder      Sort tasks  
 
 ### **Projects**
 
-  Method   Route       Description    
-
-  GET      /projects   List projects  
-  POST     /projects   Create project 
+ Method  Route      Description    
+  
+ GET     /projects  List projects  
+ POST    /projects  Create project 
 
