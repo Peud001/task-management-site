@@ -108,6 +108,15 @@ cd C:\xampp\htdocs\task-management-site
 composer install
 ```
 
+(Note: When the installation starts, you may see repeated warnings like:
+Failed to download package from dist: The zip extension and unzip/7z commands are both missing
+This is because Composer cannot use zip downloads without PHP’s zip extension or external unzip tools.
+# You might choose to ignore it
+
+OR
+# Open your php.ini file (e.g., C:\xampp\php\php.ini).
+# Ensure the following line is uncommented (remove the leading ;):
+extension=zip)
 ---
 
 ## 5️ **Create your environment file**
